@@ -1,0 +1,1187 @@
+:root {
+    --primary-bg: #ffffff;
+    --secondary-bg: #f8f9fa;
+    --text-color: #212529;
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+    --sidebar-width: 220px;
+    --card-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    --accent-color: #4f46e5;
+    --accent-hover: #4338ca;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+[data-bs-theme="dark"] {
+    --primary-bg: #0a0a0c;
+    --secondary-bg: #1a1b1e;
+    --text-color: #e9ecef;
+    --card-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+    --accent-color: #818cf8;
+    --accent-hover: #6366f1;
+    --glass-bg: rgba(26, 27, 30, 0.7);
+}
+
+body {
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+    transition: all var(--transition-speed) ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.875rem;
+}
+
+/* 背景渐变 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--accent-color) 0%, transparent 70%);
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    min-height: 100vh;
+    width: var(--sidebar-width);
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 1rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--glass-shadow);
+    z-index: 1000;
+}
+
+.nav-link {
+    color: var(--text-color);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--border-radius);
+    transition: all var(--transition-speed) ease;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.nav-link:hover {
+    background: rgba(var(--accent-color-rgb), 0.1);
+    color: var(--accent-color);
+    transform: translateX(4px);
+}
+
+.nav-link.active {
+    background: var(--accent-color);
+    color: white;
+    box-shadow: 0 4px 12px rgba(var(--accent-color-rgb), 0.3);
+}
+
+/* 主内容区样式 */
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding: 1.5rem;
+    margin-bottom: 90px; /* 为播放器留出空间 */
+}
+
+/* 卡片样式 */
+.card {
+    background: var(--glass-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    box-shadow: var(--glass-shadow);
+    transition: all var(--transition-speed) ease;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.card-body {
+    padding: 0.5rem;
+    position: relative;
+}
+
+.card-body h6.card-title {
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+}
+
+.card-body .text-muted.small {
+    font-size: 0.7rem;
+}
+
+.media-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.media-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.5));
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.card:hover .media-item::after {
+    opacity: 1;
+}
+
+.media-item img, .media-item video {
+    width: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-speed) ease;
+}
+
+.card:hover .media-item img {
+    transform: scale(1.1);
+}
+
+/* 搜索框和上传按钮容器 */
+.search-upload-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* 搜索框样式 */
+.search-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    border-radius: var(--border-radius);
+    padding: 0.25rem;
+    box-shadow: var(--glass-shadow);
+    width: 300px;
+    margin-bottom: 0; /* 移除底部间距 */
+}
+
+.search-container .form-control {
+    border: none;
+    background: transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    width: 100%;
+}
+
+.search-container .btn {
+    color: var(--accent-color);
+    border: none;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+/* 主题切换开关样式 */
+.theme-switch {
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    border-radius: var(--border-radius);
+    padding: 0.75rem;
+    box-shadow: var(--glass-shadow);
+    font-size: 0.875rem;
+}
+
+.form-switch .form-check-input {
+    height: 1rem;
+    width: 2rem;
+    background-color: var(--accent-color);
+    border: none;
+}
+
+/* 按钮样式 */
+.btn-primary {
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    transition: all var(--transition-speed) ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--accent-color-rgb), 0.3);
+}
+
+/* 标题样式 */
+.app-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, var(--accent-color), var(--accent-hover));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 1rem;
+}
+
+/* 加载动画 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--secondary-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
+}
+
+/* 优化媒体卡片样式 */
+.media-item.image {
+    height: 150px;
+    background: #000;
+    overflow: hidden;
+}
+
+.media-item.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+    transition: all var(--transition-speed) ease;
+    cursor: pointer;
+}
+
+.card:hover .media-item.image img {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.media-item.video {
+    height: 150px;
+    background: #000;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.media-item.video img {
+    height: 100%;
+    opacity: 0.8;
+}
+
+.play-button {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: all var(--transition-speed) ease;
+}
+
+.play-button i {
+    font-size: 24px;
+    color: var(--accent-color);
+}
+
+.card:hover .play-button {
+    background: var(--accent-color);
+}
+
+.card:hover .play-button i {
+    color: white;
+}
+
+.media-item.music {
+    height: 100px;
+    background: linear-gradient(45deg, var(--accent-color), var(--accent-hover));
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    gap: 1rem;
+    border-bottom: none;
+}
+
+.music-thumbnail {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+}
+
+.music-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.music-info {
+    flex-grow: 1;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;  /* 确保文本可以正确截断 */
+    height: 60px;  /* 调整高度与封面图片一致 */
+    justify-content: center;  /* 垂直居中 */
+    gap: 4px;  /* 添加间距 */
+}
+
+.music-info h6 {
+    margin: 0;
+    font-size: 0.9rem;  /* 增大文件名字体 */
+    font-weight: 500;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    line-height: 1.2;
+}
+
+.music-info p {
+    margin: 0;
+    font-size: 0.75rem;  /* 调整文件大小字体 */
+    opacity: 0.8;
+    line-height: 1.2;
+}
+
+.music-controls {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-play {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: white;
+    color: var(--accent-color);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed) ease;
+}
+
+.btn-play:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 修改渐变遮罩 */
+.media-item.video::after {
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.7));
+}
+
+.media-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: none;
+    z-index: 2;
+}
+
+.media-item:hover .media-actions {
+    display: block;
+}
+
+.delete-media {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    padding: 5px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.delete-media:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.media-item {
+    position: relative;
+}
+
+/* 复制CID按钮样式 */
+.copy-cid {
+    font-size: 0.8rem !important;
+    padding: 0rem 0.3rem !important;
+    transition: all var(--transition-speed) ease;
+    border-radius: var(--border-radius);
+    line-height: 1 !important;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.copy-cid i {
+    font-size: 0.8rem;
+    margin-right: 0.2rem;
+}
+
+.copy-cid:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+}
+
+.copy-cid.btn-success,
+.copy-cid.btn-danger {
+    color: white;
+}
+
+/* 图片预览查看器 */
+.image-viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    cursor: zoom-out;
+}
+
+.image-viewer img {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    cursor: default;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.image-viewer.active {
+    display: flex;
+}
+
+.image-viewer.active img {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 添加淡入动画 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.image-viewer.active {
+    display: flex;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 图片包装层样式 */
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.image-wrapper:hover {
+    cursor: zoom-in;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-speed) ease;
+}
+
+.image-wrapper:hover img {
+    transform: scale(1.05);
+}
+
+/* 图片卡片样式 */
+.image-card {
+    cursor: zoom-in;
+}
+
+.image-card .media-item.image {
+    height: 200px;
+    background: #000;
+    overflow: hidden;
+}
+
+.image-card .preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-speed) ease;
+}
+
+.image-card:hover .preview-image {
+    transform: scale(1.05);
+}
+
+/* 视频缩略图样式 */
+.video-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    background: #000;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.video-thumbnail .thumbnail-canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-thumbnail::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+    z-index: 1;
+}
+
+.video-thumbnail:hover::before {
+    opacity: 1;
+}
+
+.video-thumbnail .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed) ease;
+    z-index: 1;
+}
+
+.video-thumbnail .play-button i {
+    font-size: 24px;
+    color: var(--accent-color);
+    margin-left: 4px; /* 稍微调整播放图标的位置，使其视觉上更居中 */
+}
+
+.video-thumbnail:hover .play-button {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: var(--accent-color);
+}
+
+.video-thumbnail:hover .play-button i {
+    color: white;
+}
+
+.video-player {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-player.active {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+/* 视频模态框样式 */
+#videoModal .modal-dialog {
+    max-width: 90%;
+    margin: 1.75rem auto;
+}
+
+#videoModal .modal-content {
+    background: var(--primary-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+}
+
+#videoModal .modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    min-height: 30px;
+}
+
+#videoModal .modal-title {
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+#videoModal .btn-close {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+}
+
+#videoModal .modal-body {
+    padding: 0;
+    background: #000;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    overflow: hidden;
+}
+
+#dplayer {
+    width: 100%;
+    height: calc(90vh - 120px);
+    background: #000;
+}
+
+/* 视频缩略图样式 */
+.video-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    background: #000;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.video-thumbnail .thumbnail-canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-thumbnail::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+    z-index: 1;
+}
+
+.video-thumbnail:hover::before {
+    opacity: 1;
+}
+
+.video-thumbnail .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed) ease;
+    z-index: 1;
+}
+
+.video-thumbnail .play-button i {
+    font-size: 24px;
+    color: var(--accent-color);
+    margin-left: 4px; /* 稍微调整播放图标的位置，使其视觉上更居中 */
+}
+
+.video-thumbnail:hover .play-button {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: var(--accent-color);
+}
+
+.video-thumbnail:hover .play-button i {
+    color: white;
+}
+
+.video-player {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-player.active {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+/* 音乐卡片样式 */
+.music-card {
+    transition: none;
+}
+
+.music-card:hover {
+    transform: none;
+}
+
+.media-item.music {
+    height: 100px;
+    background: linear-gradient(45deg, var(--accent-color), var(--accent-hover));
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    gap: 1rem;
+    border-radius: var(--border-radius);
+    position: relative;
+    overflow: hidden;
+}
+
+.music-cover {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+    background: #000;
+    position: relative;
+}
+
+.music-cover .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed) ease;
+    opacity: 0.9;  /* 默认显示播放按钮 */
+    cursor: pointer;
+}
+
+.music-cover .play-button i {
+    font-size: 16px;
+    color: var(--accent-color);
+    margin-left: 2px;
+}
+
+.music-cover .play-button:hover {
+    background: var(--accent-color);
+}
+
+.music-cover .play-button:hover i {
+    color: white;
+}
+
+.music-info {
+    flex-grow: 1;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;  /* 确保文本可以正确截断 */
+    height: 60px;  /* 调整高度与封面图片一致 */
+    justify-content: center;  /* 垂直居中 */
+    gap: 4px;  /* 添加间距 */
+}
+
+.music-info h6 {
+    margin: 0;
+    font-size: 0.9rem;  /* 增大文件名字体 */
+    font-weight: 500;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    line-height: 1.2;
+}
+
+.music-info p {
+    margin: 0;
+    font-size: 0.75rem;  /* 调整文件大小字体 */
+    opacity: 0.8;
+    line-height: 1.2;
+}
+
+.music-actions {
+    margin: 0;  /* 移除上边距 */
+}
+
+.music-actions .copy-cid {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    transition: all var(--transition-speed) ease;
+}
+
+.music-actions .copy-cid:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.media-item.music .media-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 2;  /* 确保删除按钮始终在最上层 */
+}
+
+/* 音乐播放器容器样式 */
+.music-player-container {
+    position: fixed;
+    bottom: 0;
+    left: var(--sidebar-width);
+    right: 0;
+    background: var(--primary-bg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+}
+
+.music-player-container .aplayer {
+    margin: 0;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+}
+
+/* 深色模式适配 */
+[data-bs-theme="dark"] .music-player-container .aplayer {
+    background: transparent;
+    color: var(--text-color);
+}
+
+[data-bs-theme="dark"] .aplayer .aplayer-info {
+    border: none;
+}
+
+[data-bs-theme="dark"] .aplayer .aplayer-info .aplayer-music {
+    color: var(--text-color);
+}
+
+[data-bs-theme="dark"] .aplayer .aplayer-list ol li {
+    border-top: none;
+    background: transparent;
+}
+
+[data-bs-theme="dark"] .aplayer .aplayer-list ol li:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+[data-bs-theme="dark"] .aplayer .aplayer-list ol li.aplayer-list-light {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.main-content {
+    margin-bottom: 90px; /* 为播放器留出空间 */
+}
+
+/* 删除按钮容器 */
+.media-item.music .media-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 2;
+}
+
+/* CID按钮容器 */
+.media-item.music .cid-actions {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    z-index: 2;
+}
+
+/* 操作按钮通用样式 */
+.media-item.music .media-actions button,
+.media-item.music .cid-actions button {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: var(--border-radius);
+    transition: all var(--transition-speed) ease;
+}
+
+/* 删除按钮样式 */
+.media-item.music .media-actions button {
+    width: 32px;
+    height: 32px;
+}
+
+/* CID按钮样式 */
+.media-item.music .cid-actions button {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    white-space: nowrap;
+}
+
+.media-item.music .media-actions button:hover {
+    background: rgba(220, 53, 69, 0.9);
+}
+
+.media-item.music .cid-actions button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.media-item.music .media-actions button i,
+.media-item.music .cid-actions button i {
+    font-size: 1rem;
+}
+
+/* CID按钮状态样式 */
+.media-item.music .cid-actions .btn-success,
+.media-item.music .cid-actions .btn-danger {
+    min-width: 80px;  /* 确保有足够空间显示状态文本 */
+}
+
+/* 收藏列表二级菜单样式 */
+#playlistSubmenu {
+    background: rgba(var(--accent-color-rgb), 0.05);
+    border-radius: var(--border-radius);
+    margin-top: 0.25rem;
+}
+
+#playlistSubmenu .nav-link {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.75rem;
+    margin-bottom: 0.1rem;
+}
+
+#playlistSubmenu .nav-link:hover {
+    background: rgba(var(--accent-color-rgb), 0.1);
+}
+
+#playlistSubmenu .nav-link.active {
+    background: var(--accent-color);
+    color: white;
+}
+
+#playlistSubmenu .btn-outline-primary {
+    font-size: 0.8rem;
+    padding: 0.3rem;
+    margin: 0.5rem;
+    width: calc(100% - 1rem) !important;
+}
+
+/* 收藏列表展开/折叠图标动画 */
+.nav-link[data-bs-toggle="collapse"] .bi-chevron-down {
+    transition: transform var(--transition-speed) ease;
+}
+
+.nav-link[data-bs-toggle="collapse"][aria-expanded="true"] .bi-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* 收藏列表项计数样式 */
+.playlist-count {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    background: rgba(var(--accent-color-rgb), 0.1);
+    border-radius: 10px;
+    margin-left: auto;
+}
+
+.nav-link:hover .playlist-count {
+    background: rgba(var(--accent-color-rgb), 0.2);
+}
+
+.nav-link.active .playlist-count {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* 收藏列表模态框样式 */
+#playlistModal .modal-content {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+#playlistModal .modal-header {
+    padding: 1.5rem;
+}
+
+#playlistModal .modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+#playlistModal .modal-body {
+    padding: 1.5rem;
+}
+
+#playlistModal .nav-pills {
+    background: var(--bs-light);
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+}
+
+#playlistModal .nav-pills .nav-link {
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+#playlistModal .nav-pills .nav-link:not(.active):hover {
+    background: rgba(var(--bs-primary-rgb), 0.1);
+}
+
+#playlistModal .form-control {
+    border: 2px solid var(--bs-light);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+#playlistModal .form-control:focus {
+    border-color: var(--bs-primary);
+    box-shadow: none;
+}
+
+#playlistModal .form-label {
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+}
+
+#playlistModal .form-text {
+    margin-top: 0.75rem;
+}
+
+#playlistModal .btn {
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+#playlistModal .alert {
+    border: none;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+/* 深色模式适配 */
+[data-bs-theme="dark"] #playlistModal .nav-pills {
+    background: var(--bs-dark);
+}
+
+[data-bs-theme="dark"] #playlistModal .form-control {
+    border-color: var(--bs-dark);
+}
+
+[data-bs-theme="dark"] #playlistModal .nav-pills .nav-link:not(.active):hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* 自定义按钮样式 */
+.btn-outline-primary {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.btn-outline-primary:hover {
+    color: white;
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+[data-bs-theme="dark"] .btn-outline-primary {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+[data-bs-theme="dark"] .btn-outline-primary:hover {
+    color: white;
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* 文件链接样式 */
+.file-link {
+    color: var(--bs-body-color);
+    transition: color 0.2s ease;
+}
+
+.file-link:hover {
+    color: var(--accent-color);
+}
+
+[data-bs-theme="dark"] .file-link {
+    color: var(--bs-body-color);
+}
+
+[data-bs-theme="dark"] .file-link:hover {
+    color: var(--accent-color);
+}
+
+/* code 元素样式 */
+code {
+    color: var(--bs-body-color);
+    background-color: var(--bs-light);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--border-radius);
+}
+
+[data-bs-theme="dark"] code {
+    background-color: var(--bs-dark);
+}
+
+/* 统一按钮大小样式 */
+.btn-primary,
+.btn-secondary,
+.btn-outline-primary,
+.btn-outline-secondary {
+    min-height: 38px;
+    line-height: 1.5;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+}
+
+.btn-sm.btn-primary,
+.btn-sm.btn-secondary,
+.btn-sm.btn-outline-primary,
+.btn-sm.btn-outline-secondary {
+    min-height: 31px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+} 
