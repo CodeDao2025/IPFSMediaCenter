@@ -15,6 +15,21 @@ IPFS Media Center 是一个基于 IPFS（星际文件系统）的媒体管理应
 ## 系统要求
 
 - 本地 IPFS 节点（推荐使用 IPFS Desktop 或 go-ipfs）
+- 记得修改IPFS配置，允许跨域访问
+- ```
+  "API": {
+		"HTTPHeaders": {
+			"Access-Control-Allow-Methods": [
+				"PUT",
+				"POST",
+				"GET"
+			],
+			"Access-Control-Allow-Origin": [
+				"*"
+			]
+		}
+	},
+  ```
 - 现代浏览器（支持 ES6+）
 
 ## 安装说明
