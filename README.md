@@ -35,7 +35,7 @@ IPFS Media Center 是一个基于 IPFS（星际文件系统）的媒体管理应
 ## 安装说明
 
 1. 确保您已安装并运行了本地 IPFS 节点
-2. 通过浏览器访问应用
+2. 通过浏览器访问应用 [https://codedao2025.github.io/IPFSMediaCenter/](https://codedao2025.github.io/IPFSMediaCenter/)
 
 ## 配置说明
 
