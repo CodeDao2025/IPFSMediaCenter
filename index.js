@@ -2,7 +2,8 @@
 let mediaData = {
     images: [],
     videos: [],
-    music: []
+    music: [],
+    others: []  // 添加others数组
 };
 
 // 收藏列表数据
@@ -13,6 +14,108 @@ let currentMediaType = 'images';
 
 // 在文件开头添加全局变量
 let musicPlayer = null;
+
+// 文件类型图标映射
+const fileTypeIcons = {
+    // 图片类型
+    'jpg': 'bi-file-image',
+    'jpeg': 'bi-file-image',
+    'png': 'bi-file-image',
+    'gif': 'bi-file-image',
+    'webp': 'bi-file-image',
+    'svg': 'bi-file-image',
+    'bmp': 'bi-file-image',
+    'ico': 'bi-file-image',
+    
+    // 视频类型
+    'mp4': 'bi-file-play',
+    'webm': 'bi-file-play',
+    'avi': 'bi-file-play',
+    'mov': 'bi-file-play',
+    'wmv': 'bi-file-play',
+    'flv': 'bi-file-play',
+    'mkv': 'bi-file-play',
+    'm4v': 'bi-file-play',
+    
+    // 音频类型
+    'mp3': 'bi-file-music',
+    'wav': 'bi-file-music',
+    'ogg': 'bi-file-music',
+    'flac': 'bi-file-music',
+    'm4a': 'bi-file-music',
+    'aac': 'bi-file-music',
+    'wma': 'bi-file-music',
+    
+    // 文档类型
+    'pdf': 'bi-file-pdf',
+    'doc': 'bi-file-word',
+    'docx': 'bi-file-word',
+    'xls': 'bi-file-excel',
+    'xlsx': 'bi-file-excel',
+    'ppt': 'bi-file-ppt',
+    'pptx': 'bi-file-ppt',
+    'txt': 'bi-file-text',
+    'rtf': 'bi-file-text',
+    'md': 'bi-markdown',
+    
+    // 压缩文件
+    'zip': 'bi-file-zip',
+    'rar': 'bi-file-zip',
+    '7z': 'bi-file-zip',
+    'tar': 'bi-file-zip',
+    'gz': 'bi-file-zip',
+    'bz2': 'bi-file-zip',
+    
+    // 代码文件
+    'js': 'bi-filetype-js',
+    'py': 'bi-filetype-py',
+    'java': 'bi-filetype-java',
+    'html': 'bi-filetype-html',
+    'css': 'bi-filetype-css',
+    'scss': 'bi-filetype-scss',
+    'less': 'bi-filetype-less',
+    'json': 'bi-filetype-json',
+    'xml': 'bi-filetype-xml',
+    'sql': 'bi-filetype-sql',
+    'php': 'bi-filetype-php',
+    'cs': 'bi-filetype-cs',
+    'cpp': 'bi-filetype-cpp',
+    'h': 'bi-filetype-cpp',
+    'rb': 'bi-filetype-ruby',
+    'go': 'bi-filetype-go',
+    'ts': 'bi-filetype-ts',
+    'jsx': 'bi-filetype-jsx',
+    'vue': 'bi-filetype-vue',
+    
+    // 字体文件
+    'ttf': 'bi-file-font',
+    'otf': 'bi-file-font',
+    'woff': 'bi-file-font',
+    'woff2': 'bi-file-font',
+    'eot': 'bi-file-font',
+    
+    // 3D文件
+    'obj': 'bi-box',
+    'fbx': 'bi-box',
+    'gltf': 'bi-box',
+    'glb': 'bi-box',
+    'stl': 'bi-box',
+    '3ds': 'bi-box',
+    
+    // 数据库文件
+    'db': 'bi-database',
+    'sqlite': 'bi-database',
+    'mdb': 'bi-database',
+    
+    // 可执行文件
+    'exe': 'bi-file-binary',
+    'dll': 'bi-file-binary',
+    'app': 'bi-file-binary',
+    'msi': 'bi-file-binary',
+    
+    // 默认图标
+    'default': 'bi-file-earmark'
+};
 
 // 导航切换
 $('.nav-link').click(function(e) {
@@ -45,7 +148,16 @@ function updateUploadAccept(type) {
         case 'music':
             uploadInput.attr('accept', 'audio/*');
             break;
+        case 'others':
+            uploadInput.attr('accept', '*');  // 允许所有文件类型
+            break;
     }
+}
+
+// 获取文件图标
+function getFileIcon(fileName) {
+    const ext = fileName.split('.').pop().toLowerCase();
+    return fileTypeIcons[ext] || fileTypeIcons.default;
 }
 
 // 创建收藏列表
@@ -884,12 +996,33 @@ $('#uploadFile').on('change', async function(e) {
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             try {
-                // 检查文件类型是否匹配当前页面
+                // 根据文件类型决定上传目录
+                let mediaType;
                 const fileType = file.type.split('/')[0]; // 'image', 'video', 'audio'
-                const mediaType = fileType === 'audio' ? 'music' : fileType + 's';
                 
-                if (mediaType !== currentMediaType) {
-                    throw new Error(`请在${$('#currentSection').text()}页面上传${$('#currentSection').text()}`);
+                if (currentMediaType === 'others') {
+                    // 如果当前在others页面，所有文件都上传到others
+                    mediaType = 'others';
+                } else {
+                    // 在其他页面时，根据文件类型判断
+                    switch (fileType) {
+                        case 'image':
+                            mediaType = 'images';
+                            break;
+                        case 'video':
+                            mediaType = 'videos';
+                            break;
+                        case 'audio':
+                            mediaType = 'music';
+                            break;
+                        default:
+                            mediaType = 'others';
+                    }
+                    
+                    // 检查文件类型是否匹配当前页面
+                    if (mediaType !== currentMediaType && currentMediaType !== 'others') {
+                        throw new Error(`请在${$('#currentSection').text()}页面上传${$('#currentSection').text()}`);
+                    }
                 }
 
                 // 更新进度提示
@@ -958,10 +1091,176 @@ $('#uploadFile').on('change', async function(e) {
 async function renderMediaContent(files, type) {
     const container = $('#mediaContainer');
     container.empty();
-    container.addClass('row g-3');
+    
+    // 只有在非others类型时添加row g-3类
+    if (type !== 'others') {
+        container.addClass('row g-3');
+    }
         
+    if (type === 'others') {
+        // others类型使用表格视图
+        const table = $(`
+            <div>
+                <div class="mb-3">
+                    <button class="btn btn-danger btn-sm d-none" id="batchDeleteBtn">
+                        <i class="bi bi-trash me-1"></i>批量删除
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px">
+                                    <input type="checkbox" class="form-check-input" id="selectAll">
+                                </th>
+                                <th style="width: 40px"></th>
+                                <th>文件名</th>
+                                <th style="width: 120px">大小</th>
+                                <th style="width: 100px">CID</th>
+                                <th style="width: 80px">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        `);
+        
+        // 添加文件行
+        files.forEach((file) => {
+            if (file.Name === '.metadata.json') return;
+            
+            const fileUrl = `${window.ipfs.gatewayUrl}/${file.Hash}`;
+            const fileIcon = getFileIcon(file.Name);
+            
+            const row = $(`
+                <tr>
+                    <td>
+                        <input type="checkbox" class="form-check-input file-checkbox" data-filename="${file.Name}">
+                    </td>
+                    <td>
+                        <i class="bi ${fileIcon} fs-4"></i>
+                    </td>
+                    <td>
+                        <a href="${fileUrl}" target="_blank" class="text-decoration-none file-link">
+                            ${file.Name}
+                        </a>
+                    </td>
+                    <td>${formatFileSize(file.Size)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-secondary copy-cid" data-cid="${file.Hash}" title="复制CID">
+                            <i class="bi bi-clipboard me-1"></i>CID
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-danger delete-media" data-filename="${file.Name}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `);
+            
+            table.find('tbody').append(row);
+        });
+
+        // 绑定全选/取消全选事件
+        table.find('#selectAll').on('change', function() {
+            const isChecked = $(this).prop('checked');
+            table.find('.file-checkbox').prop('checked', isChecked);
+            updateBatchDeleteButton();
+        });
+
+        // 绑定单个复选框事件
+        table.find('.file-checkbox').on('change', function() {
+            const totalCheckboxes = table.find('.file-checkbox').length;
+            const checkedCheckboxes = table.find('.file-checkbox:checked').length;
+            table.find('#selectAll').prop('checked', totalCheckboxes === checkedCheckboxes);
+            updateBatchDeleteButton();
+        });
+
+        // 绑定批量删除按钮事件
+        table.find('#batchDeleteBtn').on('click', async function() {
+            const checkedFiles = table.find('.file-checkbox:checked').map(function() {
+                return $(this).data('filename');
+            }).get();
+
+            if (checkedFiles.length === 0) return;
+
+            showConfirmModal({
+                title: '确认删除',
+                message: `确定要删除选中的 ${checkedFiles.length} 个文件吗？`,
+                type: 'danger',
+                confirmText: '删除',
+                onConfirm: async () => {
+                    try {
+                        for (const filename of checkedFiles) {
+                            await window.ipfs.deleteMediaFile(currentMediaType, filename);
+                        }
+                        // 重新渲染列表
+                        renderMedia(currentMediaType);
+                        
+                        // 显示成功提示
+                        const container = $('#mediaContainer');
+                        container.prepend(`
+                            <div class="alert alert-success" id="batchDeleteSuccess">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                成功删除 ${checkedFiles.length} 个文件
+                            </div>
+                        `);
+                        
+                        setTimeout(() => {
+                            $('#batchDeleteSuccess').fadeOut('slow', function() {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    } catch (error) {
+                        console.error('批量删除失败:', error);
+                        const container = $('#mediaContainer');
+                        container.prepend(`
+                            <div class="alert alert-danger" id="batchDeleteError">
+                                <i class="bi bi-exclamation-circle-fill me-2"></i>
+                                批量删除失败: ${error.message}
+                            </div>
+                        `);
+                        
+                        setTimeout(() => {
+                            $('#batchDeleteError').fadeOut('slow', function() {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    }
+                }
+            });
+        });
+
+        // 更新批量删除按钮显示状态的函数
+        function updateBatchDeleteButton() {
+            const checkedCount = table.find('.file-checkbox:checked').length;
+            table.find('#batchDeleteBtn').toggleClass('d-none', checkedCount === 0);
+        }
+        
+        // 如果没有文件，显示空状态
+        if (files.length === 0 || (files.length === 1 && files[0].Name === '.metadata.json')) {
+            container.html(`
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox display-1 text-muted"></i>
+                    <h3 class="mt-3 text-muted">暂无内容</h3>
+                    <p class="text-muted">点击上传按钮添加文件</p>
+                </div>
+            `);
+        } else {
+            container.append(table);
+        }
+
+        // 绑定事件处理
+        bindMediaEvents();
+        
+        return; // 直接返回，不执行后面的代码
+    }
+
+    // 非others类型的渲染逻辑
     files.forEach((file, index) => {
-        if (file.Name === '.metadata.json') return; // 跳过元数据文件
+        if (file.Name === '.metadata.json') return;
         
         let card = '';
         const fileUrl = `${window.ipfs.gatewayUrl}/${file.Hash}`;
@@ -974,7 +1273,7 @@ async function renderMediaContent(files, type) {
             case 'images':
                 card = `
                     <div class="col-sm-4 col-md-3 col-lg-2" style="animation: fadeIn 0.5s ease forwards; animation-delay: ${index * 0.1}s">
-                    <div class="card image-card" data-action="preview" data-image-src="${fileUrl}">
+                        <div class="card image-card" data-action="preview" data-image-src="${fileUrl}">
                             <div class="media-item image">
                                 <img src="${fileUrl}" alt="${file.Name}" class="preview-image">
                                 <div class="media-actions">
@@ -1063,8 +1362,8 @@ async function renderMediaContent(files, type) {
                 <i class="bi bi-inbox display-1 text-muted"></i>
                 <h3 class="mt-3 text-muted">暂无内容</h3>
                 <p class="text-muted">点击上传按钮添加${$('#currentSection').text()}</p>
-                        </div>
-                    `);
+            </div>
+        `);
     }
 
     // 在渲染完成后绑定事件
@@ -1085,14 +1384,14 @@ async function renderMedia(type = 'images') {
     try {
         const files = await window.ipfs.getDirectoryFiles(type);
         await renderMediaContent(files, type);
-                } catch (error) {
+    } catch (error) {
         console.error('渲染媒体内容失败:', error);
         $('#mediaContainer').html(`
             <div class="alert alert-danger">
-                            <i class="bi bi-exclamation-circle-fill me-2"></i>
+                <i class="bi bi-exclamation-circle-fill me-2"></i>
                 加载失败: ${error.message}
-                        </div>
-                    `);
+            </div>
+        `);
     }
 }
 
@@ -1191,7 +1490,7 @@ $(document).ready(function() {
                 <div class="alert alert-success" id="addSuccess">
                     <i class="bi bi-check-circle-fill me-2"></i>
                     添加成功: ${fileName}
-                                    </div>
+                </div>
             `);
 
             // 3秒后移除成功提示
@@ -1220,7 +1519,7 @@ $(document).ready(function() {
                 <div class="alert alert-danger" id="addError">
                     <i class="bi bi-exclamation-circle-fill me-2"></i>
                     添加失败: ${error.message}
-                                    </div>
+                </div>
             `);
 
             // 3秒后移除错误提示
@@ -1269,9 +1568,9 @@ $('.search-container input').on('input', debounce(async function() {
     } catch (error) {
         console.error('搜索失败:', error);
         $('#mediaContainer').html(`
-                <div class="alert alert-danger">
-                    <i class="bi bi-exclamation-circle-fill me-2"></i>
-                    搜索失败: ${error.message}
+            <div class="alert alert-danger">
+                <i class="bi bi-exclamation-circle-fill me-2"></i>
+                搜索失败: ${error.message}
             </div>
         `);
     }
@@ -1676,56 +1975,50 @@ async function syncPlaylist(playlistId) {
 
 // 通用确认对话框
 function showConfirmModal(options) {
-    const {
-        title = '确认操作',
-        message,
-        confirmText = '确认',
-        cancelText = '取消',
-        onConfirm,
-        type = 'primary' // primary, danger
-    } = options;
-
-    const confirmModal = $(`
+    const { title, message, type = 'primary', confirmText = '确认', onConfirm } = options;
+    
+    // 创建模态框
+    const modal = $(`
         <div class="modal fade" tabindex="-1">
-            <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header border-0">
-                        <h5 class="modal-title">
-                            <i class="bi bi-exclamation-circle text-secondary me-2"></i>${title}
-                        </h5>
+                    <div class="modal-header">
+                        <h5 class="modal-title">${title}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <div class="modal-body text-center pb-4">
-                        <p class="mb-0">${message}</p>
+                    <div class="modal-body">
+                        <p>${message}</p>
                     </div>
-                    <div class="modal-footer border-0 justify-content-center">
-                        <button type="button" class="btn btn-link text-secondary" data-bs-dismiss="modal">${cancelText}</button>
-                        <button type="button" class="btn btn-${type} px-4" id="modalConfirmBtn">${confirmText}</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-${type} confirm-btn">${confirmText}</button>
                     </div>
                 </div>
             </div>
         </div>
     `);
     
-    // 添加到页面并显示
-    $('body').append(confirmModal);
-    const modal = new bootstrap.Modal(confirmModal);
-    modal.show();
+    // 添加到body
+    $('body').append(modal);
     
-    // 绑定确认事件
-    $('#modalConfirmBtn').click(async function() {
+    // 初始化Bootstrap模态框
+    const modalInstance = new bootstrap.Modal(modal[0]);
+    
+    // 绑定确认按钮事件
+    modal.find('.confirm-btn').on('click', async () => {
         if (typeof onConfirm === 'function') {
             await onConfirm();
         }
-        modal.hide();
+        modalInstance.hide();
     });
     
-    // Modal 隐藏后移除
-    confirmModal.on('hidden.bs.modal', function() {
-        confirmModal.remove();
+    // 模态框隐藏后清理DOM
+    modal.on('hidden.bs.modal', function () {
+        modal.remove();
     });
-
-    return modal;
+    
+    // 显示模态框
+    modalInstance.show();
 }
 
 // 修改删除收藏列表的确认对话框

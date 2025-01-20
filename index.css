@@ -1184,4 +1184,161 @@ code {
     min-height: 31px;
     padding: 0.25rem 0.5rem;
     font-size: 0.875rem;
+}
+
+/* 其他文件类型的样式 */
+.media-item.other {
+    height: 150px;
+    background: var(--secondary-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    overflow: hidden;
+}
+
+.file-icon-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, var(--accent-color), var(--accent-hover));
+    opacity: 0.1;
+    transition: all var(--transition-speed) ease;
+}
+
+.file-icon-wrapper i {
+    font-size: 3rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    transition: all var(--transition-speed) ease;
+}
+
+.card:hover .file-icon-wrapper {
+    opacity: 0.2;
+}
+
+.card:hover .file-icon-wrapper i {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.media-item.other .media-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: none;
+    z-index: 2;
+}
+
+.media-item.other:hover .media-actions {
+    display: block;
+}
+
+/* 文件链接样式 */
+.file-link {
+    color: var(--text-color);
+    transition: color var(--transition-speed) ease;
+}
+
+.file-link:hover {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+/* Others页面列表视图样式 */
+.table {
+    --bs-table-hover-bg: var(--secondary-bg);
+    margin-bottom: 0;
+}
+
+.table th {
+    font-weight: 500;
+    color: var(--text-color);
+    border-bottom-width: 1px;
+    padding: 1rem;
+}
+
+.table td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+}
+
+.table .bi {
+    opacity: 0.7;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.table tr:hover .bi {
+    opacity: 1;
+}
+
+.table .file-link {
+    display: block;
+    max-width: 500px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 深色模式适配 */
+[data-bs-theme="dark"] .table {
+    --bs-table-color: var(--text-color);
+    --bs-table-bg: transparent;
+    --bs-table-border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-bs-theme="dark"] .table-hover > tbody > tr:hover {
+    --bs-table-hover-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* 文件图标颜色 */
+.table .bi-file-pdf { color: #dc3545; }
+.table .bi-file-word { color: #0d6efd; }
+.table .bi-file-excel { color: #198754; }
+.table .bi-file-ppt { color: #fd7e14; }
+.table .bi-file-zip { color: #6f42c1; }
+.table .bi-markdown { color: #0dcaf0; }
+.table .bi-filetype-json { color: #ffc107; }
+.table .bi-file-text { color: #6c757d; }
+.table .bi-file { color: #6c757d; }
+
+/* 新增文件类型图标颜色 */
+.table .bi-file-image { color: #20c997; }
+.table .bi-file-play { color: #fd7e14; }
+.table .bi-file-music { color: #6f42c1; }
+.table .bi-filetype-xml { color: #0dcaf0; }
+.table .bi-filetype-sql { color: #198754; }
+.table .bi-filetype-php { color: #6610f2; }
+.table .bi-filetype-cs { color: #7952b3; }
+.table .bi-filetype-cpp { color: #0d6efd; }
+.table .bi-filetype-ruby { color: #dc3545; }
+.table .bi-filetype-go { color: #00add8; }
+.table .bi-filetype-ts { color: #3178c6; }
+.table .bi-filetype-jsx { color: #61dafb; }
+.table .bi-filetype-vue { color: #42b883; }
+.table .bi-file-font { color: #fd7e14; }
+.table .bi-box { color: #6f42c1; }
+.table .bi-database { color: #198754; }
+.table .bi-file-binary { color: #dc3545; }
+.table .bi-filetype-scss { color: #cd6799; }
+.table .bi-filetype-less { color: #1d365d; }
+
+/* 操作按钮样式 */
+.table .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    opacity: 0.8;
+    transition: all var(--transition-speed) ease;
+}
+
+.table tr:hover .btn {
+    opacity: 1;
+}
+
+.table .btn-outline-secondary {
+    --bs-btn-color: var(--text-color);
+    --bs-btn-border-color: var(--text-color);
 } 

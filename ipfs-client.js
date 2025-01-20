@@ -12,6 +12,7 @@ class IPFSClient {
         this.imagesPath = `${this.mediaPath}/images`;
         this.videosPath = `${this.mediaPath}/videos`;
         this.musicPath = `${this.mediaPath}/music`;
+        this.othersPath = `${this.mediaPath}/others`;
         this.collectionsPath = `${this.mediaPath}/collections`;
         
         // 初始化设置事件监听
@@ -115,6 +116,7 @@ class IPFSClient {
                 this.imagesPath,
                 this.videosPath,
                 this.musicPath,
+                this.othersPath,
                 this.collectionsPath
             ];
 
